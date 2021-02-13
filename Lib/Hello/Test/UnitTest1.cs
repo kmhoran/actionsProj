@@ -10,7 +10,7 @@ namespace Hello.Test
         public void JSON_Matches_Hard_Code()
         {
             string greetingJSON = HelloService.GetJSON();
-            Assert.Equal(greetingJSON, "{\"Greeting\":\"Hello\",\"Addressee\":\"World\"}");
+            Assert.Equal("{\"Greeting\":\"Hello\",\"Addressee\":\"World\"}", greetingJSON);
         }
     }
 }
