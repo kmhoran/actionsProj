@@ -1,5 +1,5 @@
 #! /bin/bash
-RELEASE='main'
+RELEASE='archive/20210224'
 echo "PUBLISHING RELEASE"
 TODAY=$(date '+%Y%m%d')
 if [[ -z $(git ls-remote --heads origin ${RELEASE}) ]]; then
@@ -18,7 +18,7 @@ else
   git branch -m ${RELEASE} ${ARCHIVE_BRANCH}
   git push origin ${ARCHIVE_BRANCH}
 
-  git branch
+  git push origin --delete ${RELEASE}
 
 fi
 
