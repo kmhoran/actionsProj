@@ -2,9 +2,13 @@
 
 echo "PUBLISHING RELEASE"
 
-local RELEASE = 'release'
-
 git branch
+
+if [[ -z $(git ls-remote --heads origin release) ]]; then
+  # release branch exists. let's archive
+
+  else echo "No Existing Release Found"
+fi
 
 #git branch -m release archive/20210218
 #git push origin --delete release
