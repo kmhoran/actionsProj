@@ -1,14 +1,25 @@
 #! /bin/bash
-
+RELEASE='main'
 echo "PUBLISHING RELEASE"
-
-git branch
-
-if [[ -z $(git ls-remote --heads origin release) ]]; then
-  # release branch exists. let's archive
-  echo "Found Existing Release"
+TODAY=$(date '+%Y%m%d')
+if [[ -z $(git ls-remote --heads origin ${RELEASE}) ]]; then
+  echo "- No Existing Release Found"
 else 
-  echo "No Existing Release Found"
+  # release branch exists. let's archive
+  BRANCH_COUNT=$(git ls-remote --quiet | grep ${TODAY} | wc -l)
+  if [[ ${BRANCH_COUNT} -gt 0 ]]; then
+    ARCHIVE_BRANCH="archive/${TODAY}-${BRANCH_COUNT}"
+  else
+    ARCHIVE_BRANCH="archive/${TODAY}"
+  fi
+  echo "- Found Existing Release. Creating archive branch: ${ARCHIVE_BRANCH}"
+  git fetch origin ${RELEASE} --quiet
+  git checkout ${RELEASE}
+  git branch -m ${RELEASE} ${ARCHIVE_BRANCH}
+  git push origin ${ARCHIVE_BRANCH}
+
+  git branch
+
 fi
 
 #git branch -m release archive/20210218
