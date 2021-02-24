@@ -1,12 +1,14 @@
 #! /bin/bash
 MAIN_BRANCH='main'
 GITS_MAIN_BRANCH=$(git remote show origin | grep "HEAD branch" | cut -d ":" -f 2)
-if [[ ${MAIN_BRANCH} -ne ${EXPECTED_MAIN_BRANCH} ]]; then
-  echo "Expected default branch: ${MAIN_BRANCH} did not match git's default: ${GITS_MAIN_BRANCH}"
+
+# we'll compare our expected main branch with what the current API has on file
+if [[ ${MAIN_BRANCH} != ${GITS_MAIN_BRANCH} ]]; then
+  echo "ERROR: Expected default branch: '${MAIN_BRANCH}' did not match git's default: '${GITS_MAIN_BRANCH}'"
   exit 1
 fi
 
-RELEASE='archive/20210224'
+RELEASE='release'
 echo "PUBLISHING RELEASE"
 TODAY=$(date '+%Y%m%d')
 if [[ -z $(git ls-remote --heads origin ${RELEASE}) ]]; then
@@ -26,8 +28,13 @@ else
   git push origin ${ARCHIVE_BRANCH}
 
   git push origin --delete ${RELEASE}
-
 fi
+
+git checkout ${MAIN_BRANCH}
+git checkout -b ${RELEASE}
+
+git push origin ${RELEASE}
+
 
 #git branch -m release archive/20210218
 #git push origin --delete release
