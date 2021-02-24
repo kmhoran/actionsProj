@@ -1,9 +1,9 @@
 #! /bin/bash
 MAIN_BRANCH='main'
-GITS_MAIN_BRANCH=$(git remote show origin | grep "HEAD branch" | cut -d ":" -f 2)
+GITS_MAIN_BRANCH=$(git remote show origin | grep "HEAD branch" | cut -d ":" -f 2 | xargs)
 
 # we'll compare our expected main branch with what the current API has on file
-if [[ ${MAIN_BRANCH} != ${GITS_MAIN_BRANCH} ]]; then
+if [[ "${MAIN_BRANCH}" != "${GITS_MAIN_BRANCH}" ]]; then
   echo "ERROR: Expected default branch: '${MAIN_BRANCH}' did not match git's default: '${GITS_MAIN_BRANCH}'"
   exit 1
 fi
