@@ -1,4 +1,11 @@
 #! /bin/bash
+MAIN_BRANCH='main'
+GITS_MAIN_BRANCH=$(git remote show origin | grep "HEAD branch" | cut -d ":" -f 2)
+if [[ ${MAIN_BRANCH} -ne ${EXPECTED_MAIN_BRANCH} ]]; then
+  echo "Expected default branch: ${MAIN_BRANCH} did not match git's default: ${GITS_MAIN_BRANCH}"
+  exit 1
+fi
+
 RELEASE='archive/20210224'
 echo "PUBLISHING RELEASE"
 TODAY=$(date '+%Y%m%d')
