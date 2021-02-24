@@ -22,17 +22,24 @@ else
     ARCHIVE_BRANCH="archive/${TODAY}"
   fi
   echo "- Found Existing Release. Creating archive branch: ${ARCHIVE_BRANCH}"
+  echo "git fetch origin ${RELEASE} --quiet"
   git fetch origin ${RELEASE} --quiet
+  echo "git checkout ${RELEASE}"
   git checkout ${RELEASE}
+  echo "git branch -m ${RELEASE} ${ARCHIVE_BRANCH}"
   git branch -m ${RELEASE} ${ARCHIVE_BRANCH}
+  echo "git push origin ${ARCHIVE_BRANCH}"
   git push origin ${ARCHIVE_BRANCH}
 
+  echo "git push origin --delete ${RELEASE}"
   git push origin --delete ${RELEASE}
 fi
-
+echo "git checkout ${MAIN_BRANCH}"
 git checkout ${MAIN_BRANCH}
+echo "git checkout -b ${RELEASE}"
 git checkout -b ${RELEASE}
 
+echo "git push origin ${RELEASE}"
 git push origin ${RELEASE}
 
 
