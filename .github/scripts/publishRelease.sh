@@ -6,8 +6,9 @@ git branch
 
 if [[ -z $(git ls-remote --heads origin release) ]]; then
   # release branch exists. let's archive
-
-  else echo "No Existing Release Found"
+  echo "Found Existing Release"
+else 
+  echo "No Existing Release Found"
 fi
 
 #git branch -m release archive/20210218
